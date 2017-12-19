@@ -1,0 +1,22 @@
+{
+  "name": "cryptopals_js",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "node_modules/.bin/jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/simonas88/cryptopals_js.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/simonas88/cryptopals_js/issues"
+  },
+  "homepage": "https://github.com/simonas88/cryptopals_js#readme",
+  "dependencies": {
+    "jest": "^22.0.3"
+  }
+}
