@@ -58,7 +58,29 @@ function convertToSixBits(input) {
   return result;
 }
 
+function convertToBase64String(input) {
+  const table = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
+
+  return input.reduce((str, int) => str + table.charAt(int), '');
+}
+
+function hexToB64(input) {
+  const padding = ((input.length) / 2) % 3;
+
+  const intArray = getIntsFromHex(input);
+  const sixBitArray = convertToSixBits(intArray);
+  let b64String = convertToBase64String(sixBitArray);
+
+  for (let i = input.length - 1; i > input.length - 1 - padding; i -= 1) {
+    b64String = b64String.splice(i, 1, '=');
+  }
+
+  return b64String;
+}
+
 module.exports = {
   getIntsFromHex,
   convertToSixBits,
-}
+  convertToBase64String,
+  hexToB64,
+};
