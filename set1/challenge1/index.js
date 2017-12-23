@@ -1,8 +1,9 @@
 function getIntsFromHex(input) {
-  const array = [];
+  const len = input.length;
+  const array = new Uint8Array(len / 2);
 
-  for (let i = 1; i < input.length; i += 2) {
-    array.push(parseInt(input.substring(i - 1, i + 1), 16));
+  for (let i = 1, j = 0; i < len; i += 2, j += 1) {
+    array[j] = (parseInt(input.substring(i - 1, i + 1), 16));
   }
 
   return array;
