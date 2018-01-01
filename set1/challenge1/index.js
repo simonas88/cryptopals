@@ -9,28 +9,35 @@ function getIntsFromHex(input) {
   return array;
 }
 
-function convertToSixBits(input) {
+const B64_TABLE = [
+  'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',
+  'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',
+  'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X',
+  'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f',
+  'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n',
+  'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
+  'w', 'x', 'y', 'z', '0', '1', '2', '3',
+  '4', '5', '6', '7', '8', '9', '+', '/',
+];
+
+function intsToB64String(input) {
   const inputLength = input.length;
   const pad = inputLength % 3;
   const fullThrees = inputLength - pad;
 
-  const result = [];
+  let b64str = '';
 
   for (let i = 2; i < fullThrees; i += 3) {
     const b1 = input[i - 2];
     const b2 = input[i - 1];
     const b3 = input[i];
 
-
     const s1 = b1 >>> 2;
     const s2 = (b1 << (6 + 24) >>> (2 + 24)) | (b2 >>> 4);
     const s3 = (b2 << (4 + 24) >>> (2 + 24)) | (b3 >>> 6);
     const s4 = b3 << (2 + 24) >>> (2 + 24);
 
-    result.push(s1);
-    result.push(s2);
-    result.push(s3);
-    result.push(s4);
+    b64str += B64_TABLE[s1] + B64_TABLE[s2] + B64_TABLE[s3] + B64_TABLE[s4];
   }
 
   if (pad === 2) {
@@ -41,9 +48,7 @@ function convertToSixBits(input) {
     const s2 = (b1 << (6 + 24) >>> (2 + 24)) | (b2 >>> 4);
     const s3 = (b2 << (4 + 24) >>> (2 + 24));
 
-    result.push(s1);
-    result.push(s2);
-    result.push(s3);
+    b64str += B64_TABLE[s1] + B64_TABLE[s2] + B64_TABLE[s3] + '=';
   }
 
   if (pad === 1) {
@@ -52,36 +57,19 @@ function convertToSixBits(input) {
     const s1 = b1 >>> 2;
     const s2 = (b1 << (6 + 24) >>> (2 + 24));
 
-    result.push(s1);
-    result.push(s2);
+    b64str += B64_TABLE[s1] + B64_TABLE[s2] + '==';
   }
 
-  return result;
-}
-
-function convertToBase64String(input) {
-  const table = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
-
-  return input.reduce((str, int) => str + table.charAt(int), '');
+  return b64str;
 }
 
 function hexToB64(input) {
-  const padding = ((input.length) / 2) % 3;
-
   const intArray = getIntsFromHex(input);
-  const sixBitArray = convertToSixBits(intArray);
-  let b64String = convertToBase64String(sixBitArray);
-
-  for (let i = input.length - 1; i > input.length - 1 - padding; i -= 1) {
-    b64String = b64String.splice(i, 1, '=');
-  }
-
-  return b64String;
+  return intsToB64String(intArray);
 }
 
 module.exports = {
   getIntsFromHex,
-  convertToSixBits,
-  convertToBase64String,
+  intsToB64String,
   hexToB64,
 };
