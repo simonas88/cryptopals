@@ -22,7 +22,7 @@ function deCipher(input) {
 }
 
 function scoreString(input) {
-  const scores = 'ZzJjQqXxKkVvBbPpGgWwYyFfMmCcUuLlDdHhRrSsNnIiOoAaTtEe';
+  const scores = 'ZJQXKVBPGWYFMCULDHRSNIOATEzjqxkvbpgwyfmculdhrsnioate';
 
   return input.split('').reduce((agg, char) => {
     return agg + scores.indexOf(char);
