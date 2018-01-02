@@ -30,4 +30,5 @@ function encode(input, cipher) {
 module.exports = {
   XORencodeBytes,
   encode,
+  stringToIntArray,
 };
