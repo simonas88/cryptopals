@@ -1,3 +1,4 @@
+const fs = require('fs');
 const { stringToIntArray } = require('../challenge5');
 
 const B64_TABLE = [
@@ -36,6 +37,25 @@ function getHammingDistanceBetweenInts(input1, input2) {
 
     return distance + diff.length;
   }, 0);
+}
+
+function findKeySize(input) {
+  let topKey = 2;
+  let minDistance = Infinity;
+
+  for (let i = 3; i <= 40; i++) {
+    const block1 = input.slice(0, i);
+    const block2 = input.slice(i, i + i);
+
+    const distance = getHammingDistanceBetweenInts(block1, block2)/i;
+
+    if (distance < minDistance) {
+      minDistance = distance;
+      topKey = i;
+    }
+  }
+
+  return topKey;
 }
 
 function getIntsFromB64(input) {
