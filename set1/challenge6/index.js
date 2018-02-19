@@ -26,6 +26,18 @@ function getHammingDistance(input1, input2) {
   }, 0);
 }
 
+function getHammingDistanceBetweenInts(input1, input2) {
+  if (input1.length !== input2.length) {
+    throw Error('unequal length inputs');
+  }
+
+  return input1.reduce((distance, int, index) => {
+    const diff = (int ^ input2[index]).toString(2).replace(/0/g, '');
+
+    return distance + diff.length;
+  }, 0);
+}
+
 function getIntsFromB64(input) {
   //const sixBitInts = input.split('').filter(char => char !== '=').map(char => B64_TABLE.indexOf(char));
 
@@ -64,6 +76,11 @@ function getIntsFromB64(input) {
   return array;
 }
 
+function readB64StringIntoInts(inputPath) {
+  const b64String = fs.readFileSync(inputPath, 'utf8').replace(/\n/g, '');
+
+  return getIntsFromB64(b64String);
+}
 //MTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMQ==
 
 module.exports = {
